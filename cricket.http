@@ -28,7 +28,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/players/2/matches/
+GET http://localhost:3000/players/1/matches/
 Content-Type: application/json 
 
 { 
@@ -36,3 +36,24 @@ Content-Type: application/json
     "match": "SRH vs MI",
     "year": 2016
   }
+
+###
+GET http://localhost:3000/matches/2/players
+Content-Type: application/json
+
+{
+    "playerId": 2,
+    "playerName": "Joseph"
+}
+
+###
+GET http://localhost:3000/players/1/playerScores
+Content-Type: application/json
+
+{
+  "playerId": 1,
+  "playerName": "Ram",
+  "totalScore":3453,
+  "totalFours": 342,
+  "totalSixes": 98
+}
