@@ -112,23 +112,21 @@ app.get("/matches/:matchId/", async (request, response) => {
 });
 
 //list aof all matches of a playerAPI
-app.get("/players/:playerId/matches/", async (request, response) => {
-  const { playerId } = request.params;
-  const getPlayerMatchesQuery = `
-    SELECT 
-    * 
-    FROM 
-   player_match_score
-   NATURAL JOIN match_details
+app.get("/players/:playerID/matches/", async (request, response) => {
+   const getPlayerMatchesQuery = `
+    SELECT
+      *
+    FROM player_match_score 
+      NATURAL JOIN match_details
     WHERE
-    player_id = ${playerId};`;
-  const matchesArray = await db.all(getPlayerMatchesQuery);
+      player_id = ${playerID};`;
+ const matchesArray = await db.all(getMatchesQuery);
   response.send(convertPlayerMatchScoreDbObjectToResponseObject(matchesArray));
 });
 
 //list aof all matches of a playerAPI
-app.get("/matches/:matchId/players/", async (request, response) => {
-  const { matchId } = request.params;
+app.get("/matches/:matchID/players/", async (request, response) => {
+  const { matchID } = request.params;
   const getMatchPlayersQuery = `
     SELECT 
     * 
@@ -136,16 +134,15 @@ app.get("/matches/:matchId/players/", async (request, response) => {
    player_match_score
     WHERE
     NATURAL JOIN player_details
-    match_id = ${matchId};`;
+    match_id = ${matchID};`;
   const matchesArray = await db.all(getMatchPlayerQuery);
   response.send(convertPlayerMatchScoreDbObjectToResponseObject(matchesArray));
 });
 
 ///players/:playerId/playerScores`
-app.get("/players/:playerId/playerScores/", async(request,response)=>{
-const {playerId} = request.params;
-const getPlayerScoresQuery = 
-`
+app.get("/players/:playerID/playerScores/", async (request, response) => {
+  const { playerID } = request.params;
+  const getPlayerScoresQuery = `
 SELECT
 Id,
 Name,
@@ -156,14 +153,14 @@ FROM
 matches
 WHERE
 player_id=${playerID};`;
-const scores = await db.get(getPlayerScoresQuery);
-response.send({
+  const scores = await db.get(getPlayerScoresQuery);
+  response.send({
     playerId: scores["Id"],
-    playerName:scores["Name"],
-    totalScore:scores["SUM(totalScore)"],
-    totalFours:scores["SUM(totalFours)"],
-    totalSixes:scores["SUM(totalSixes)"],
-});
+    playerName: scores["Name"],
+    totalScore: scores["SUM(totalScore)"],
+    totalFours: scores["SUM(totalFours)"],
+    totalSixes: scores["SUM(totalSixes)"],
+  });
 });
 
 module.exports = app;
